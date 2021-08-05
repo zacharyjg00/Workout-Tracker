@@ -25,7 +25,18 @@ app.get("/stats", (req, res) => {
 });
 
 // API Routes
+app.get("/api/workouts", async (req, res) => {
+    const workouts = await db.Workout.find({});
+    res.json(workouts);
+});
 
+app.post("/api/workouts", (req, res) => {
+    db.Workout.create(req.body);
+});
+
+app.put("/api/workouts/:id", (req, res) => {
+
+});
 
 app.listen(PORT, () => {
     console.log(`App running on port ${PORT}!`);
