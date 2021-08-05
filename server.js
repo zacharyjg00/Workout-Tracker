@@ -30,12 +30,14 @@ app.get("/api/workouts", async (req, res) => {
     res.json(workouts);
 });
 
-app.post("/api/workouts", (req, res) => {
-    db.Workout.create(req.body);
+app.post("/api/workouts", async (req, res) => {
+    db.Workout.create(req.body)
+    .then(newWorkout => res.json(newWorkout));
 });
 
-app.put("/api/workouts/:id", (req, res) => {
-
+app.put("/api/workouts/:id", async (req, res) => {
+    db.Workout.findOneAndUpdate({ _id: req.params.id }, { $push: { exercises: req.body } }, { new: true })
+    .then(updatedWorkout => res.json(updatedWorkout));
 });
 
 app.listen(PORT, () => {
