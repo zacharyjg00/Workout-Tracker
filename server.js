@@ -13,7 +13,14 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout",
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        userFindAndModify: false
+    }
+);
 
 // Page Routes
 app.get("/exercise", (req, res) => {
@@ -45,6 +52,7 @@ app.put("/api/workouts/:id", async (req, res) => {
         .then(updatedWorkout => res.json(updatedWorkout));
 });
 
+// App listener
 app.listen(PORT, () => {
     console.log(`App running on port ${PORT}!`);
 });
